@@ -1,5 +1,8 @@
 #include "GameManager.h"
 #include "Zombie.h"
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
 
 void GameManager::init()
 {
@@ -9,7 +12,7 @@ void GameManager::init()
 	zombies[3].init("Junpei", "Baseball Player");
 }
 
-void GameManager::start()
+void GameManager::Start()
 {
 	printf("The Contestants are:\n");
 	drawStatus();
@@ -18,12 +21,19 @@ void GameManager::start()
 
 }
 
-
 void GameManager::drawStatus() const
 {
-	for (int i = 0; i < Z_Count; i++)
+	for (int i = 0; i < Z_Count; ++i)
+		zombies[i].draw(false);
+}
+
+void GameManager::drawRound() const
+{
+	printf("\n###### Combat Round ######\n");
+	for (int i = 0; i < Z_Count; ++i)
 		zombies[i].draw(true);
 }
+
 
 void GameManager::update()
 {
@@ -40,4 +50,15 @@ bool GameManager::isGameOver() const
 			livingZombies++;
 
 	return livingZombies == 1;
+}
+
+
+void GameManager::drawWinner() const
+{
+	printf("\n\n##### The battle is over!! #####\n");
+	for (int i = 0; i < Z_Count; ++i)
+		if (zombies[i].isAlive())
+			zombies[i].draw(false);
+
+	printf("The victor has emerged!");
 }
